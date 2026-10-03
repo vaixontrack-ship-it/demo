@@ -827,14 +827,15 @@ export default function Home() {
         "output.mp4"
       );
 
-      const mp4Blob = new Blob(
-        [
-          output instanceof Uint8Array
-            ? output
-            : new Uint8Array(output as ArrayBuffer),
-        ],
-        { type: "video/mp4" }
-      );
+      const mp4Bytes =
+      typeof output === "string"
+        ? new TextEncoder().encode(output)
+        : new Uint8Array(output);
+    
+    const mp4Blob = new Blob(
+      [mp4Bytes],
+      { type: "video/mp4" }
+    );
 
       const url = URL.createObjectURL(mp4Blob);
 
